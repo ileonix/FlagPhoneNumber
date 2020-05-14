@@ -9,7 +9,9 @@
 import UIKit
 
 open class FPNCountryListViewController: UITableViewController, UISearchResultsUpdating, UISearchControllerDelegate {
-
+    
+    open var cellColor: UIColor?
+    
 	open var repository: FPNCountryRepository?
 	open var showCountryPhoneCode: Bool = true
 	open var searchController: UISearchController = UISearchController(searchResultsController: nil)
@@ -25,8 +27,9 @@ open class FPNCountryListViewController: UITableViewController, UISearchResultsU
 		initSearchBarController()
 	}
 
-	open func setup(repository: FPNCountryRepository) {
+    open func setup(repository: FPNCountryRepository, cellColor: UIColor) {
 		self.repository = repository
+        self.cellColor = cellColor
 	}
 
 	private func initSearchBarController() {
@@ -80,6 +83,7 @@ open class FPNCountryListViewController: UITableViewController, UISearchResultsU
 
 		cell.imageView?.image = country.flag
 		cell.textLabel?.text = country.name
+        cell.contentView.backgroundColor = self.cellColor
 
 		if showCountryPhoneCode {
 			cell.detailTextLabel?.text = country.phoneCode
