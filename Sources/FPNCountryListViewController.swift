@@ -13,6 +13,7 @@ open class FPNCountryListViewController: UITableViewController, UISearchResultsU
     open var bgColor: UIColor?
     open var searchBarColor: UIColor?
     open var tintColor: UIColor?
+    open var isDarkBackground: Bool?
     
 	open var repository: FPNCountryRepository?
 	open var showCountryPhoneCode: Bool = true
@@ -29,11 +30,12 @@ open class FPNCountryListViewController: UITableViewController, UISearchResultsU
 		initSearchBarController()
 	}
 
-    open func setup(repository: FPNCountryRepository, bgColor: UIColor, searchBarColor: UIColor, tintColor: UIColor) {
+    open func setup(repository: FPNCountryRepository, bgColor: UIColor, searchBarColor: UIColor, tintColor: UIColor, isDarkBackground: Bool) {
 		self.repository = repository
         self.bgColor = bgColor
         self.searchBarColor = searchBarColor
         self.tintColor = tintColor
+        self.isDarkBackground = isDarkBackground
 //        self.view.backgroundColor = self.bgColor
 	}
 
@@ -47,7 +49,7 @@ open class FPNCountryListViewController: UITableViewController, UISearchResultsU
 			// Fallback on earlier versions
 		}
 //        searchController.tabBarController?.view.backgroundColor = self.bgColor
-        searchController.searchBar.backgroundColor = self.bgColor //UIColor.clear
+//        searchController.searchBar.backgroundColor = self.bgColor
         searchController.searchBar.tintColor = self.tintColor // cursor in search box
         
 		if #available(iOS 11.0, *) {
@@ -99,6 +101,7 @@ open class FPNCountryListViewController: UITableViewController, UISearchResultsU
 
 		cell.imageView?.image = country.flag
 		cell.textLabel?.text = country.name
+        cell.textLabel?.textColor = self.isDarkBackground! ? UIColor.white : UIColor.black
         
         cell.backgroundColor = UIColor.clear
         cell.contentView.backgroundColor = self.bgColor //UIColor.clear
@@ -106,6 +109,7 @@ open class FPNCountryListViewController: UITableViewController, UISearchResultsU
 
 		if showCountryPhoneCode {
 			cell.detailTextLabel?.text = country.phoneCode
+            cell.detailTextLabel?.textColor = self.isDarkBackground! ? UIColor.lightGray : UIColor.darkGray
 		}
 
 		return cell

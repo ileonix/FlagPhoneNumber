@@ -29,7 +29,7 @@ class SimpleViewController: UIViewController {
 //		phoneNumberTextField.pickerView.showPhoneNumbers = false
 		phoneNumberTextField.displayMode = .list // .picker by default
         
-        listController.setup(repository: phoneNumberTextField.countryRepository, bgColor: UIColor.blue, searchBarColor: UIColor.blue, tintColor: UIColor.blue)
+        listController.setup(repository: phoneNumberTextField.countryRepository, bgColor: UIColor.blue, searchBarColor: UIColor.blue, tintColor: UIColor.blue, isDarkBackground: false)
 		listController.didSelect = { [weak self] country in
 			self?.phoneNumberTextField.setFlag(countryCode: country.code)
 		}
