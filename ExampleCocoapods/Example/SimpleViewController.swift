@@ -28,13 +28,12 @@ class SimpleViewController: UIViewController {
 		phoneNumberTextField.borderStyle = .roundedRect
 //		phoneNumberTextField.pickerView.showPhoneNumbers = false
 		phoneNumberTextField.displayMode = .list // .picker by default
-
-		listController.setup(repository: phoneNumberTextField.countryRepository)
-
+        
+        listController.setup(repository: phoneNumberTextField.countryRepository, bgColor: UIColor.blue, searchBarColor: UIColor.blue, tintColor: UIColor.blue)
 		listController.didSelect = { [weak self] country in
 			self?.phoneNumberTextField.setFlag(countryCode: country.code)
 		}
-
+        
 		phoneNumberTextField.delegate = self
 		phoneNumberTextField.font = UIFont.systemFont(ofSize: 14)
 

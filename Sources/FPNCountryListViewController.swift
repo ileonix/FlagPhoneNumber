@@ -10,7 +10,9 @@ import UIKit
 
 open class FPNCountryListViewController: UITableViewController, UISearchResultsUpdating, UISearchControllerDelegate {
     
-    open var cellColor: UIColor?
+    open var bgColor: UIColor?
+    open var searchBarColor: UIColor?
+    open var tintColor: UIColor?
     
 	open var repository: FPNCountryRepository?
 	open var showCountryPhoneCode: Bool = true
@@ -27,9 +29,12 @@ open class FPNCountryListViewController: UITableViewController, UISearchResultsU
 		initSearchBarController()
 	}
 
-    open func setup(repository: FPNCountryRepository, cellColor: UIColor) {
+    open func setup(repository: FPNCountryRepository, bgColor: UIColor, searchBarColor: UIColor, tintColor: UIColor) {
 		self.repository = repository
-        self.cellColor = cellColor
+        self.bgColor = bgColor
+        self.searchBarColor = searchBarColor
+        self.tintColor = tintColor
+//        self.view.backgroundColor = self.bgColor
 	}
 
 	private func initSearchBarController() {
@@ -41,11 +46,17 @@ open class FPNCountryListViewController: UITableViewController, UISearchResultsU
 		} else {
 			// Fallback on earlier versions
 		}
-
+//        searchController.tabBarController?.view.backgroundColor = self.bgColor
+        searchController.searchBar.backgroundColor = self.bgColor //UIColor.clear
+        searchController.searchBar.tintColor = self.tintColor // cursor in search box
+        
 		if #available(iOS 11.0, *) {
+//            navigationController?.navigationBar.backgroundColor = UIColor.green //not work
+            navigationController?.navigationBar.barTintColor = self.bgColor //not show when self.view set background
 			navigationItem.searchController = searchController
 			navigationItem.hidesSearchBarWhenScrolling = false
 		} else {
+            searchController.navigationController?.navigationBar.barTintColor = self.bgColor
 			searchController.dimsBackgroundDuringPresentation = false
 			searchController.hidesNavigationBarDuringPresentation = true
 			searchController.definesPresentationContext = true
@@ -76,14 +87,22 @@ open class FPNCountryListViewController: UITableViewController, UISearchResultsU
 		}
 		return repository?.countries.count ?? 0
 	}
+    
+    override open func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        tableView.contentInset = UIEdgeInsets(top: -searchController.searchBar.bounds.height, left: 0, bottom: -searchController.searchBar.bounds.height, right: 0)
+    }
+
 
 	override open func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-		let cell = UITableViewCell(style: .value1, reuseIdentifier: nil)
+        let cell = UITableViewCell(style: .value1, reuseIdentifier: nil)
 		let country = getItem(at: indexPath)
 
 		cell.imageView?.image = country.flag
 		cell.textLabel?.text = country.name
-        cell.contentView.backgroundColor = self.cellColor
+        
+        cell.backgroundColor = UIColor.clear
+        cell.contentView.backgroundColor = self.bgColor //UIColor.clear
+//        cell.backgroundView?.backgroundColor = UIColor.red //not working
 
 		if showCountryPhoneCode {
 			cell.detailTextLabel?.text = country.phoneCode

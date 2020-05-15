@@ -29,7 +29,7 @@ class TableViewController: UITableViewController {
 		secondPhoneNumberTextField.displayMode = .list
 		secondPhoneNumberTextField.delegate = self
 
-		listController.setup(repository: secondPhoneNumberTextField.countryRepository)
+        listController.setup(repository: secondPhoneNumberTextField.countryRepository, bgColor: UIColor.blue, searchBarColor: UIColor.blue, tintColor: UIColor.blue)
 
 		listController.didSelect = { [weak self] country in
 			self?.secondPhoneNumberTextField.setFlag(countryCode: country.code)
