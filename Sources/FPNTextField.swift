@@ -55,9 +55,20 @@ open class FPNTextField: UITextField {
 			if hasPhoneNumberExample == false {
 				placeholder = nil
 			}
-			updatePlaceholder()
+            updatePlaceholder(isMobile: false)
 		}
 	}
+    
+    /// Present in the placeholder an example of a phone number according to the selected country code.
+    /// If false, you can set your own placeholder. Set to true by default.
+    @objc open var hasMobilePhoneNumberExample: Bool = true {
+        didSet {
+            if hasMobilePhoneNumberExample == false {
+                placeholder = nil
+            }
+            updatePlaceholder(isMobile: true)
+        }
+    }
 
 	open var countryRepository = FPNCountryRepository()
 
@@ -381,8 +392,11 @@ open class FPNTextField: UITextField {
 		}
 
 		if hasPhoneNumberExample == true {
-			updatePlaceholder()
+            updatePlaceholder(isMobile: false)
 		}
+        if hasMobilePhoneNumberExample == true {
+            updatePlaceholder(isMobile: true)
+        }
 		didEditText()
 	}
 
@@ -443,10 +457,10 @@ open class FPNTextField: UITextField {
 		return [space, doneButton]
 	}
 
-	private func updatePlaceholder() {
+    private func updatePlaceholder(isMobile: Bool) {
 		if let countryCode = selectedCountry?.code {
 			do {
-				let example = try phoneUtil.getExampleNumber(countryCode.rawValue)
+                let example = isMobile ? try phoneUtil.getExampleNumber(forType: countryCode.rawValue, type: .MOBILE) : try phoneUtil.getExampleNumber(countryCode.rawValue)
 				let phoneNumber = "+\(example.countryCode.stringValue)\(example.nationalNumber.stringValue)"
 
 				if let inputString = formatter?.inputString(phoneNumber) {
