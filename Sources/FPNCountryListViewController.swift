@@ -91,8 +91,7 @@ open class FPNCountryListViewController: UITableViewController, UISearchResultsU
 	}
     
     override open func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-//        tableView.contentInset = UIEdgeInsets(top: -searchController.searchBar.bounds.height, left: 0, bottom: -searchController.searchBar.bounds.height, right: 0)
-        tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        tableView.contentInset = UIEdgeInsets(top: -searchController.searchBar.bounds.height + 30.0, left: 0, bottom: -searchController.searchBar.bounds.height, right: 0)
     }
 
 
