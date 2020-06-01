@@ -24,7 +24,7 @@ class SimpleViewController: UIViewController {
 
 		// To use your own flag icons, uncommment the line :
 		//		Bundle.FlagIcons = Bundle(for: SimpleViewController.self)
-
+        phoneNumberTextField.countryRepository = FPNCountryRepository(locale: Locale(identifier: "th_TH"))
 		phoneNumberTextField.borderStyle = .roundedRect
 //		phoneNumberTextField.pickerView.showPhoneNumbers = false
 		phoneNumberTextField.displayMode = .list // .picker by default
@@ -33,7 +33,9 @@ class SimpleViewController: UIViewController {
 		listController.didSelect = { [weak self] country in
 			self?.phoneNumberTextField.setFlag(countryCode: country.code)
 		}
-        
+        if #available(iOS 13.0, *) {
+            listController.searchController.searchBar.searchTextField.placeholder = "ค้นหา"
+        }
 		phoneNumberTextField.delegate = self
 		phoneNumberTextField.font = UIFont.systemFont(ofSize: 14)
 
